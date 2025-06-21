@@ -5,20 +5,21 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { VNode } from "@stencil/core";
+export { VNode } from "@stencil/core";
 export namespace Components {
     interface MyComponent {
+    }
+    interface VirtualGrid {
         /**
-          * The first name
+          * @default 200
          */
-        "first": string;
+        "itemMaxWidth": number;
         /**
-          * The last name
+          * @default []
          */
-        "last": string;
-        /**
-          * The middle name
-         */
-        "middle": string;
+        "items": any[];
+        "renderItem": (index: number) => VNode;
     }
 }
 declare global {
@@ -28,27 +29,34 @@ declare global {
         prototype: HTMLMyComponentElement;
         new (): HTMLMyComponentElement;
     };
+    interface HTMLVirtualGridElement extends Components.VirtualGrid, HTMLStencilElement {
+    }
+    var HTMLVirtualGridElement: {
+        prototype: HTMLVirtualGridElement;
+        new (): HTMLVirtualGridElement;
+    };
     interface HTMLElementTagNameMap {
         "my-component": HTMLMyComponentElement;
+        "virtual-grid": HTMLVirtualGridElement;
     }
 }
 declare namespace LocalJSX {
     interface MyComponent {
+    }
+    interface VirtualGrid {
         /**
-          * The first name
+          * @default 200
          */
-        "first"?: string;
+        "itemMaxWidth"?: number;
         /**
-          * The last name
+          * @default []
          */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
+        "items"?: any[];
+        "renderItem"?: (index: number) => VNode;
     }
     interface IntrinsicElements {
         "my-component": MyComponent;
+        "virtual-grid": VirtualGrid;
     }
 }
 export { LocalJSX as JSX };
@@ -56,6 +64,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
+            "virtual-grid": LocalJSX.VirtualGrid & JSXBase.HTMLAttributes<HTMLVirtualGridElement>;
         }
     }
 }

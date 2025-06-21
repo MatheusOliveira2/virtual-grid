@@ -1,5 +1,4 @@
-import { Component, Prop, h } from '@stencil/core';
-import { format } from '../../utils/utils';
+import { Component, Host, h } from '@stencil/core';
 
 @Component({
   tag: 'my-component',
@@ -7,26 +6,21 @@ import { format } from '../../utils/utils';
   shadow: true,
 })
 export class MyComponent {
-  /**
-   * The first name
-   */
-  @Prop() first: string;
+  private items = Array.from({ length: 10000 }, (_, i) => i);
 
-  /**
-   * The middle name
-   */
-  @Prop() middle: string;
-
-  /**
-   * The last name
-   */
-  @Prop() last: string;
-
-  private getText(): string {
-    return format(this.first, this.middle, this.last);
+  private renderItemFunction(item) {
+    return (
+      <div>
+        <img src={`https://picsum.photos/id/${item}/200`} />
+      </div>
+    );
   }
 
   render() {
-    return <div>Hello, World! I'm {this.getText()}</div>;
+    return (
+      <Host>
+        <virtual-grid renderItem={item => this.renderItemFunction(item)} items={this.items}></virtual-grid>
+      </Host>
+    );
   }
 }

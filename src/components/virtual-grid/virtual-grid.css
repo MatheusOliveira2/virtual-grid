@@ -1,0 +1,14 @@
+:host {
+  display: grid;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(var(--item-width), 1fr));
+  background-color: aqua;
+  gap: 10px;
+}
+
+.grid-item {
+  background-color: red;
+}
